@@ -23,6 +23,8 @@ changelog="https://www.mesa3d.org/relnotes/${version}.html"
 distfiles="https://mesa.freedesktop.org/archive/mesa-${version}.tar.xz"
 checksum=5b1f827d28684a25f6657289f8b7d47ac56395988c7ac23e0ec9a62b644bdc63
 
+alternatives="GL:/usr/lib/libGL.so.1:/usr/lib/mesa/libGL.so.1.2.0"
+
 # Set subpackages manually to set proper rdeps in 32bit pkgs.
 subpackages="libglapi libgbm libEGL libGLES libOSMesa"
 
@@ -94,7 +96,13 @@ esac
 
 post_install() {
 	vlicense docs/license.html
-	vmkdir usr/lib/xorg/modules/extensions
+
+	vmkdir "usr/lib/mesa"
+	mv ${DESTDIR}/usr/lib/libGL.so* ${DESTDIR}/usr/lib/mesa/
+	mv ${DESTDIR}/usr/lib/libGLES*.so* ${DESTDIR}/usr/lib/mesa/
+	mv ${DESTDIR}/usr/lib/libEGL.so* ${DESTDIR}/usr/lib/mesa/
+
+	vmkdir "usr/lib/xorg/modules/extensions"
 	ln -s libglx-xorg.so ${DESTDIR}/usr/lib/xorg/modules/extensions/libglx.so
 }
 
@@ -115,16 +123,21 @@ libgbm_package() {
 
 libEGL_package() {
 	short_desc="Free implementation of the EGL API - runtime"
+	alternatives="EGL:/usr/lib/libEGL.so.1:/usr/lib/mesa/libEGL.so.1.0.0"
 	pkg_install() {
-		vmove "usr/lib/libEGL*.so.*"
+		vmove "usr/lib/mesa/libEGL*.so.*"
 	}
 }
 
 libGLES_package() {
 	depends="libudev"
 	short_desc="Free implementation of the OpenGL|ES 1.x and 2.x API"
+	alternatives="
+	 GLES:/usr/lib/libGLESv1_CM.so.1:/usr/lib/mesa/libGLESv1_CM.so.1.1.0
+	 GLES:/usr/lib/libGLESv2.so.2:/usr/lib/mesa/libGLESv2.so.2.0.0
+	"
 	pkg_install() {
-		vmove "usr/lib/libGLES*.so.*"
+		vmove "usr/lib/mesa/libGLES*.so.*"
 	}
 }
 
@@ -145,10 +158,17 @@ MesaLib-devel_package() {
 		i686*|x86_64*|ppc64*)  depends+=" libxatracker>=${version}_${revision}";;
 	esac
 	short_desc+=" - development files"
+	alternatives="
+	 GL-devel:/usr/lib/libEGL.so:/usr/lib/mesa/libEGL.so.1.0.0
+	 GL-devel:/usr/lib/libGL.so:/usr/lib/mesa/libGL.so.1.2.0
+	 GL-devel:/usr/lib/libGLESv1_CM.so:/usr/lib/mesa/libGLESv1_CM.so.1.1.0
+	 GL-devel:/usr/lib/libGLESv2.so:/usr/lib/mesa/libGLESv2.so.2.0.0
+	"
 	pkg_install() {
 		vmove usr/include
 		vmove usr/lib/pkgconfig
 		vmove "usr/lib/*.so"
+		vmove "usr/lib/mesa/*.so"
 	}
 }
 
