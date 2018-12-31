@@ -266,19 +266,24 @@ nvidia390-libs_package() {
 	provides="libEGL-${version}_${revision} libGL-${version}_${revision} libGLES-${version}_${revision}"
 
 	if [ "${build_option_glvnd}" ]; then
-		alternatives+="GL:libGL.so.1:/usr/lib/nvidia/libGL.so.${version}"
+		alternatives+="
+		 GL:/usr/lib/libGL.so.1:/usr/lib/nvidia/libGL.so.${version}
+		 GL-devel:/usr/lib/libGL.so:/usr/lib/nvidia/libGL.so.${version}
+		"
 	else
-		alternatives+="GL:libGL.so.1:/usr/lib/nvidia/libGL.so.1.7.0"
+		alternatives+="
+		 GL:/usr/lib/libGL.so.1:/usr/lib/nvidia/libGL.so.1.7.0
+		 GL-devel:/usr/lib/libGL.so:/usr/lib/nvidia/libGL.so.1.7.0
+		"
 	fi
 
 	alternatives+="
 	 EGL:/usr/lib/libEGL.so.1:/usr/lib/nvidia/libEGL.so.1.1.0
-	 GLES:libGLESv1_CM.so.1:/usr/lib/nvidia/libGLESv1_CM.so.1.2.0
-	 GLES:libGLESv2.so.2:/usr/lib/nvidia/libGLESv2.so.2.1.0
-	 GL-devel:libEGL.so:/usr/lib/nvidia/libEGL.so.1.1.0
-	 GL-devel:libGL.so:/usr/lib/nvidia/libGL.so.1.1.0
-	 GL-devel:libGLESv1_CM.so:/usr/lib/nvidia/libGLESv1_CM.so.1.2.0
-	 GL-devel:libGLESv2.so:/usr/lib/nvidia/libGLESv2.so.2.1.0
+	 GLES:/usr/lib/libGLESv1_CM.so.1:/usr/lib/nvidia/libGLESv1_CM.so.1.2.0
+	 GLES:/usr/lib/libGLESv2.so.2:/usr/lib/nvidia/libGLESv2.so.2.1.0
+	 GL-devel:/usr/lib/libEGL.so:/usr/lib/nvidia/libEGL.so.1.1.0
+	 GL-devel:/usr/lib/libGLESv1_CM.so:/usr/lib/nvidia/libGLESv1_CM.so.1.2.0
+	 GL-devel:/usr/lib/libGLESv2.so:/usr/lib/nvidia/libGLESv2.so.2.1.0
 	"
 
 	pkg_install() {
