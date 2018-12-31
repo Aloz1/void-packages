@@ -23,7 +23,10 @@ changelog="https://www.mesa3d.org/relnotes/${version}.html"
 distfiles="https://mesa.freedesktop.org/archive/mesa-${version}.tar.xz"
 checksum=5b1f827d28684a25f6657289f8b7d47ac56395988c7ac23e0ec9a62b644bdc63
 
-alternatives="GL:/usr/lib/libGL.so.1:/usr/lib/mesa/libGL.so.1.2.0"
+alternatives="
+ libglx:libglx.so:/usr/lib/xorg/modules/extensions/libglx-xorg.so
+ GL:/usr/lib/libGL.so.1:/usr/lib/mesa/libGL.so.1.2.0
+"
 
 # Set subpackages manually to set proper rdeps in 32bit pkgs.
 subpackages="libglapi libgbm libEGL libGLES libOSMesa"
@@ -101,9 +104,6 @@ post_install() {
 	mv ${DESTDIR}/usr/lib/libGL.so* ${DESTDIR}/usr/lib/mesa/
 	mv ${DESTDIR}/usr/lib/libGLES*.so* ${DESTDIR}/usr/lib/mesa/
 	mv ${DESTDIR}/usr/lib/libEGL.so* ${DESTDIR}/usr/lib/mesa/
-
-	vmkdir "usr/lib/xorg/modules/extensions"
-	ln -s libglx-xorg.so ${DESTDIR}/usr/lib/xorg/modules/extensions/libglx.so
 }
 
 libglapi_package() {

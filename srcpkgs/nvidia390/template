@@ -59,7 +59,6 @@ do_install() {
 
 	# GLX extension module for X
 	vinstall libglx.so.${version} 755 usr/lib/xorg/modules/extensions
-	ln -sf libglx.so.${version} ${DESTDIR}/usr/lib/xorg/modules/extensions/libglx.so
 
 	# GLX client libs
 	if [ "${build_option_glvnd}" ]; then
@@ -278,6 +277,7 @@ nvidia390-libs_package() {
 	fi
 
 	alternatives+="
+	 libglx:libglx.so:/usr/lib/xorg/modules/extensions/libglx.so.${version}
 	 EGL:/usr/lib/libEGL.so.1:/usr/lib/nvidia/libEGL.so.1.1.0
 	 GLES:/usr/lib/libGLESv1_CM.so.1:/usr/lib/nvidia/libGLESv1_CM.so.1.2.0
 	 GLES:/usr/lib/libGLESv2.so.2:/usr/lib/nvidia/libGLESv2.so.2.1.0

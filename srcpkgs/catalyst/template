@@ -72,8 +72,6 @@ do_install() {
 	install -m755 drivers/*.so ${DESTDIR}/usr/lib/xorg/modules/drivers/
 	install -m755 linux/*.so ${DESTDIR}/usr/lib/xorg/modules/linux/
 	install -m755 extensions/fglrx/fglrx-libglx.so ${DESTDIR}/usr/lib/xorg/modules/extensions
-	ln -sf fglrx-libglx.so ${DESTDIR}/usr/lib/xorg/modules/extensions/libglx.so
-	ln -sf fglrx-libglx.so ${DESTDIR}/usr/lib/xorg/modules/extensions/libglx.so.1
 	popd
 
 	pushd arch/${_ARCHDIR}/usr/X11R6/lib${_ARCHLIB}
@@ -164,6 +162,8 @@ catalyst-libs_package() {
 	short_desc="${_desc} - libraries"
 	provides="libGL-${version}_${revision}"
 	alternatives="
+	 libglx:libglx.so:/usr/lib/xorg/modules/extensions/fglrx-libglx.so
+	 libglx:libglx.so.1:/usr/lib/xorg/modules/extensions/fglrx-libglx.so.1
 	 GL:libGL.so.1:/usr/lib/fglrx-libGL.so.1.2
 	 GL-devel:libGL.so:/usr/lib/fglrx-libGL.so.1.2
 	"
