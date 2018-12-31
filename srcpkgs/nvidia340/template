@@ -4,7 +4,8 @@ _desc="NVIDIA drivers (GeForce 8, 9, 9M, 100, 100M, 200, 300 series)"
 
 pkgname=nvidia340
 version=340.107
-revision=1
+<<<<<<< HEAD
+revision=1a
 maintainer="Juan RP <xtraeme@voidlinux.org>"
 license="Proprietary NVIDIA license"
 homepage="http://www.nvidia.com"
