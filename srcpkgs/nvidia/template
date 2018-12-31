@@ -291,9 +291,9 @@ nvidia-libs_package() {
 	provides="libEGL-${version}_${revision} libGL-${version}_${revision} libGLES-${version}_${revision}"
 
 	if [ "${build_option_glvnd}" ]; then
-		alternatives+="GL:libGL.so.1:/usr/lib/libGL.so.${version}"
+		alternatives+="GL:libGL.so.1:/usr/lib/nvidia/libGL.so.${version}"
 	else
-		alternatives+="GL:libGL.so.1:/usr/lib/libGL.so.1.7.0"
+		alternatives+="GL:libGL.so.1:/usr/lib/nvidia/libGL.so.1.7.0"
 	fi
 
 	alternatives+="
