@@ -14,7 +14,7 @@ nopie=yes
 repository="nonfree"
 create_wrksrc=yes
 short_desc="${_desc} - Libraries and Utilities"
-conflicts="catalyst>=0 xserver-abi-video>24_1"
+conflicts="catalyst>=0 xserver-abi-video>24_1 nvidia390 nvidia340"
 
 if [ "$XBPS_TARGET_MACHINE" = "x86_64" ]; then
 	depends="nvidia-gtklibs-${version}_${revision} nvidia-dkms-${version}_${revision} pkg-config"

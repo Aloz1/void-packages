@@ -15,7 +15,7 @@ repository=nonfree
 create_wrksrc=yes
 short_desc="${_desc} - Libraries and Utilities"
 depends="${pkgname}-dkms-${version}_${revision} pkg-config"
-conflicts="catalyst>=0 xserver-abi-video>24_1"
+conflicts="catalyst>=0 xserver-abi-video>24_1 nvidia nvidia390"
 
 provides="nvidia-${version}_${revision}"
 replaces="nvidia>=0 nvidia-stable>=0"
