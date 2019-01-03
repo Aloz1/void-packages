@@ -15,7 +15,9 @@ repository="nonfree"
 create_wrksrc=yes
 short_desc="${_desc} - Libraries and Utilities"
 depends="nvidia390-gtklibs-${version}_${revision} nvidia390-dkms-${version}_${revision} pkg-config"
-conflicts="catalyst>=0 xserver-abi-video>24_1 nvidia nvidia340"
+conflicts="catalyst>=0 xserver-abi-video>24_1"
+provides="nvidia-${version}_${revision}"
+replaces="catalyst>=0 nvidia>=0"
 
 build_options="glvnd"
 desc_option_glvnd="Add support for NVIDIA's GL Vendor Neutral Dispatch implementation"
@@ -256,13 +258,16 @@ do_install() {
 
 nvidia390-gtklibs_package() {
 	short_desc="${_desc} - GTK+ libraries"
+	provides="nvidia-gtklibs-${version}_${revision}"
+	replaces="nvidia-gtklibs>=0"
 	pkg_install() {
 		vmove usr/lib/lib*gtk*.so*
 	}
 }
 nvidia390-libs_package() {
 	short_desc="${_desc} - common libraries"
-	provides="libEGL-${version}_${revision} libGL-${version}_${revision} libGLES-${version}_${revision}"
+	provides="libEGL-${version}_${revision} libGL-${version}_${revision} libGLES-${version}_${revision} nvidia-libs-${version}_${revision}"
+	replaces="nvidia-libs>=0"
 
 	if [ "${build_option_glvnd}" ]; then
 		alternatives+="
@@ -294,6 +299,8 @@ nvidia390-dkms_package() {
 	short_desc="${_desc} - DKMS kernel module"
 	dkms_modules="nvidia ${version}"
 	depends="dkms"
+	provides="nvidia-dkms-${version}_${revision}"
+	replaces="nvidia-dkms>=0"
 	pkg_install() {
 		vmove usr/src
 		vmove usr/lib/modprobe.d
@@ -303,6 +310,8 @@ nvidia390-dkms_package() {
 nvidia390-opencl_package() {
 	short_desc="${_desc} - OpenCL implementation"
 	depends="libOpenCL"
+	provides="nvidia-opencl-${version}_${revision}"
+	replaces="nvidia-opencl>=0"
 	pkg_install() {
 		vmove "usr/lib/libnvidia-compiler*"
 		vmove "usr/lib/libnvidia-opencl*"

@@ -16,8 +16,7 @@ repository=nonfree
 create_wrksrc=yes
 short_desc="${_desc} - Libraries and Utilities"
 depends="${pkgname}-dkms-${version}_${revision} pkg-config"
-conflicts="catalyst>=0 xserver-abi-video>24_1 nvidia nvidia390"
-
+conflicts="catalyst>=0 xserver-abi-video>24_1"
 provides="nvidia-${version}_${revision}"
 replaces="nvidia>=0 nvidia-stable>=0"
 subpackages="${pkgname}-dkms ${pkgname}-opencl ${pkgname}-libs"
@@ -197,7 +196,8 @@ nvidia340-opencl_package() {
 }
 nvidia340-libs_package() {
 	short_desc="${_desc} - libraries"
-	provides="libGL-${version}_${revision}"
+	provides="libGL-${version}_${revision} nvidia-libs-${version}_${revision}"
+	replaces="nvidia-libs>=0"
 	alternatives="
 	 libglx:libglx.so:/usr/lib/xorg/modules/extensions/libglx.so.${version}
 	 libglx:libglx.so.1:/usr/lib/xorg/modules/extensions/libglx.so.${version}
