@@ -1,0 +1,27 @@
+# Template file for 'apicula'
+pkgname=apicula
+version=0.15
+revision=1
+build_style=python3-module
+create_wrksrc=true
+build_wrksrc="apicula-${version}"
+patch_args="-d apicula-${version}"
+hostmakedepends="python3-setuptools"
+makedepends=""
+depends="python3-crccheck python3-Pillow python3-numpy"
+short_desc="Open source tools for Gowin FPGAs"
+maintainer="Aloz1 <kno0001@gmail.com>"
+license="MIT"
+homepage="https://github.com/YosysHQ/apicula"
+distfiles="${homepage}/archive/${version}.tar.gz
+ ${homepage}/releases/download/0.0.0.dev/linux-x64-gowin-data.tgz"
+checksum="9db6dcf3f425b184b6b99be404f28b3600559dfe412df5df79abbbdcf4de7b2e
+ 672f92548c0094f7ea532460ea06e2f8950cbbdd49bac6f78c0fe23570c64f28"
+
+post_extract() {
+	mv ${wrksrc}/apycula/* ${wrksrc}/apicula-${version}/apycula/
+}
+
+post_patch() {
+	vsed -i -e "s/@@VERSION@@/${version}/" setup.py
+}

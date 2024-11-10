@@ -1,0 +1,50 @@
+# Template file for 'prjtrellis'
+pkgname=prjtrellis
+version=1.4
+revision=1
+create_wrksrc=true
+build_style=cmake
+build_wrksrc="prjtrellis-${version}/libtrellis"			# CMake files all reside within this directory
+hostmakedepends=""
+makedepends="boost-devel python3-devel"
+depends=""
+#depends="libtrellis>=${version}_${revision}"
+short_desc="Open source tools for Lattice ECP5 bitstream creation"
+maintainer="Aloz1 <kno0001@gmail.com>"
+license="ISC"
+homepage="https://github.com/YosysHQ/prjtrellis"
+#changelog=""
+distfiles="${homepage}/archive/${version}.tar.gz>${pkgname}-${version}.tar.gz
+ ${homepage}/releases/download/1.4/prjtrellis-db-1.4.zip"
+checksum="46fe9d98676953e0cccf1d6332755d217a0861e420f1a12dabfda74d81ccc147
+ 4f8a8a5344f85c628fb3ba3862476058c80bcb8ffb3604c5cca84fede11ff9f0"
+
+post_extract() {
+	rmdir ${wrksrc}/prjtrellis-${version}/database
+	mv ${wrksrc}/prjtrellis-db-master ${wrksrc}/prjtrellis-${version}/database
+}
+
+post_install() {
+	# Remove spurious license file. We want these to all be under /usr/share/licenses
+	rm ${DESTDIR}/usr/share/trellis/database/COPYING
+
+	vlicense ../COPYING
+	vlicense ../database/COPYING COPYING.database
+	vlicense 3rdparty/pybind11/LICENSE LICENSE.pybind11
+}
+
+#prjtrellis-db_package() {
+#	short_desc+=" - Database Files"
+#	depends="${sourcepkg}>=${version}_${revision} qt"
+#	pkg_install() {
+#		#vmove asdf
+#	}
+#}
+#
+#libtrellis_package() {
+#	short_desc+=" - Libraries"
+#	depends="${sourcepkg}>=${version}_${revision}"
+#	pkg_install() {
+#		#vmove asdf
+#	}
+#}

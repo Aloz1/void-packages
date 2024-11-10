@@ -1,0 +1,31 @@
+# Template file for 'prjoxide'
+pkgname=prjoxide
+version=20241111
+revision=1
+_githash=30712ff988a3ea7700fa11b87ae2d77e55c7c468
+_githash_db=dff1db406022251c2e6fa0969a807db4bd610a0a
+create_wrksrc=true
+build_style=cargo
+build_wrksrc="prjoxide-${_githash}/libprjoxide"
+make_install_args="--path prjoxide"
+hostmakedepends=""
+makedepends=""
+depends=""
+short_desc="Open source tools for Lattice Nexus bitstream creation"
+maintainer="Aloz1 <kno0001@gmail.com>"
+license="ISC"
+homepage="https://github.com/gatecat/prjoxide"
+distfiles="${homepage}/archive/${_githash}.tar.gz>${pkgname}-${version}.tar.gz
+ ${homepage}-db/archive/${_githash_db}.tar.gz>${pkgname}-db-${version}.tar.gz"
+checksum="657c48fa0408ac5bc80d2da8e85a560dfef48eac3f0469654ca46a4c2a925736
+ 43ba913c0333a1048e52997aec29d6258f3a60fa486fc731fba0f3e168671b7b"
+
+post_extract() {
+	rmdir ${wrksrc}/prjoxide-${_githash}/database
+	mv ${wrksrc}/prjoxide-db-${_githash_db} ${wrksrc}/prjoxide-${_githash}/database
+}
+
+post_patch() {
+	# Target does not ship a lockfile
+	cargo generate-lockfile
+}

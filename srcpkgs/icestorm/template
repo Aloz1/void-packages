@@ -1,0 +1,32 @@
+# Template file for 'icestorm'
+pkgname=icestorm
+version=20241110
+revision=1
+_githash=738af822905fdcf0466e9dd784b9ae4b0b34987f
+build_style=gnu-makefile
+hostmakedepends="pkg-config python3"
+makedepends="libusb-devel libftdi1-devel"
+depends=""
+short_desc="Open source tools for ice40 bitstream creation"
+maintainer="Aloz1 <kno0001@gmail.com>"
+license="ISC"
+homepage="https://github.com/YosysHQ/icestorm"
+distfiles="${homepage}/archive/${_githash}.tar.gz>${pkgname}-${version}.tar.gz"
+checksum=c5384f9168a250448e68319434ca6763096ff5439abfd9d3dd06777f309b0004
+
+post_patch() {
+	vsed -i \
+		-e 's|^CFLAGS|override CFLAGS|g' \
+		-e 's|^CXXFLAGS|override CXXFLAGS|g' \
+		config.mk
+
+	vsed -i \
+		-e 's|^LDLIBS|override LDLIBS|g' \
+		-e 's|^CFLAGS|override CFLAGS|g' \
+		iceprog/Makefile
+}
+
+post_install() {
+	vmkdir ${py3_sitelib}
+	mv ${DESTDIR}/usr/bin/*.py ${DESTDIR}/${py3_sitelib}/.
+}
